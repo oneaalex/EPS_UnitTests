@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DiscountCodeServer.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+478ec695d3c84d5a98f545478a486d676578c1be")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7c8443b2eca102643fcabb604f2c993a1ea6e768")]
 [assembly: System.Reflection.AssemblyProductAttribute("DiscountCodeServer.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DiscountCodeServer.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

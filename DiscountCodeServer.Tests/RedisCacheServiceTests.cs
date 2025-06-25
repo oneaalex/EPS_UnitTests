@@ -41,7 +41,21 @@ public class RedisCacheServiceTests
         _mockDb.Setup(db => db.StringGetAsync(key, It.IsAny<CommandFlags>()))
             .ReturnsAsync((RedisValue)string.Empty);
 
-        await Assert.ThrowsAsync<KeyNotFoundException>(() => _service.GetAsync<TestObj>(key));
+        try
+        {
+            var result = await _service.GetAsync<TestObj>(key);
+            Assert.True(false, "Expected KeyNotFoundException was not thrown.");
+        }
+        catch (KeyNotFoundException ex)
+        {
+            Console.WriteLine($"Caught expected exception: {ex.GetType().Name} - {ex.Message}");
+            Assert.Contains(key, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Caught unexpected exception: {ex.GetType().Name} - {ex.Message}");
+            Assert.True(false, $"Unexpected exception type: {ex.GetType().Name}");
+        }
     }
 
     [Fact]

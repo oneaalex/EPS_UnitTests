@@ -368,3 +368,4 @@ D:\EPS\DiscountCodeServer.Tests\obj\Debug\net8.0\refint\DiscountCodeServer.Tests
 D:\EPS\DiscountCodeServer.Tests\obj\Debug\net8.0\DiscountCodeServer.Tests.pdb
 D:\EPS\DiscountCodeServer.Tests\obj\Debug\net8.0\DiscountCodeServer.Tests.genruntimeconfig.cache
 D:\EPS\DiscountCodeServer.Tests\obj\Debug\net8.0\ref\DiscountCodeServer.Tests.dll
+D:\EPS\DiscountCodeServer.Tests\obj\Debug\net8.0\DiscountCodeServer.Tests.sourcelink.json
