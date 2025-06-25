@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SignalR Client</title>
+    <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr/dist/browser/signalr.min.js"></script>
+</head>
+<body>
+<h1>SignalR Client</h1>
+<button onclick="connect()">Connect</button>
+<button onclick="generateCodes()">Generate Codes</button>
+<button onclick="useSampleCode()">Use Code</button>
+<div id="messages"></div>
+
+<script>
+    let connection;
+
+    function connect() {
+        // Replace with your server URL and port
+        const serverUrl = "https://localhost:5000/discountCodeHub";
+        connection = new signalR.HubConnectionBuilder()
+            .withUrl(serverUrl)
+            .build();
+
+        // Event handlers for incoming messages
+        connection.on("CodeGenerated", code => {
+            document.getElementById("messages").innerHTML += `<p>Generated: ${code}</p>`;
+        });
+        connection.on("CodeUsed", code => {
+            document.getElementById("messages").innerHTML += `<p>Used: ${code}</p>`;
+        });
+        connection.on("Error", msg => {
+            document.getElementById("messages").innerHTML += `<p style="color:red;">Error: ${msg}</p>`;
+        });
+
+        // Start connection
+        connection.start()
+            .then(() => {
+                alert("Connected");
+            })
+            .catch(err => {
+                alert("Connection failed: " + err);
+            });
+    }
+
+    function generateCodes() {
+        if (connection && connection.state === signalR.HubConnectionState.Connected) {
+            connection.invoke("GenerateCode", 5, 8)
+                .catch(err => {
+                    console.error(err.toString());
+                });
+        } else {
+            alert("Please connect first.");
+        }
+    }
+
+    function useSampleCode() {
+        if (connection && connection.state === signalR.HubConnectionState.Connected) {
+            connection.invoke("UseCode", "ABC12345")
+                .catch(err => {
+                    console.error(err.toString());
+                });
+        } else {
+            alert("Please connect first.");
+        }
+    }
+</script>
+</body>
+</html>
