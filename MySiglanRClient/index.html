@@ -9,19 +9,20 @@
 <button onclick="connect()">Connect</button>
 <button onclick="generateCodes()">Generate Codes</button>
 <button onclick="useSampleCode()">Use Code</button>
+<!-- Button to trigger test -->
+<button onclick="testSignalR()">Test SignalR</button>
 <div id="messages"></div>
 
 <script>
     let connection;
 
     function connect() {
-        // Replace with your server URL and port
-        const serverUrl = "https://localhost:5000/discountCodeHub";
+        const serverUrl = "https://localhost:44396/discountCodeHub"; // Use your server URL
         connection = new signalR.HubConnectionBuilder()
             .withUrl(serverUrl)
             .build();
 
-        // Event handlers for incoming messages
+        // Event handlers
         connection.on("CodeGenerated", code => {
             document.getElementById("messages").innerHTML += `<p>Generated: ${code}</p>`;
         });
@@ -32,7 +33,6 @@
             document.getElementById("messages").innerHTML += `<p style="color:red;">Error: ${msg}</p>`;
         });
 
-        // Start connection
         connection.start()
             .then(() => {
                 alert("Connected");
@@ -45,9 +45,7 @@
     function generateCodes() {
         if (connection && connection.state === signalR.HubConnectionState.Connected) {
             connection.invoke("GenerateCode", 5, 8)
-                .catch(err => {
-                    console.error(err.toString());
-                });
+                .catch(err => console.error(err.toString()));
         } else {
             alert("Please connect first.");
         }
@@ -56,11 +54,28 @@
     function useSampleCode() {
         if (connection && connection.state === signalR.HubConnectionState.Connected) {
             connection.invoke("UseCode", "ABC12345")
-                .catch(err => {
-                    console.error(err.toString());
-                });
+                .catch(err => console.error(err.toString()));
         } else {
             alert("Please connect first.");
+        }
+    }
+
+    // Test function to auto-connect and invoke methods
+    async function testSignalR() {
+        // Check if already connected
+        if (!connection || connection.state !== signalR.HubConnectionState.Connected) {
+            // Try connecting
+            await connect();
+        }
+        // Once connected, invoke test methods
+        if (connection && connection.state === signalR.HubConnectionState.Connected) {
+            console.log("Testing SignalR...");
+            // Generate a code
+            await connection.invoke("GenerateCode", 1, 8).catch(err => console.error("GenerateCode error:", err));
+            // Use a sample code
+            await connection.invoke("UseCode", "SAMPLECODE").catch(err => console.error("UseCode error:", err));
+        } else {
+            alert("Could not establish connection for test.");
         }
     }
 </script>
